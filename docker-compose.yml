@@ -1,0 +1,36 @@
+# REST-сервис перевода и PostgreSQL. FRONT (card-transfer) запускается отдельно, см. README.
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: moneytransfer
+      POSTGRES_USER: mtuser
+      POSTGRES_PASSWORD: mtpass
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mtuser -d moneytransfer"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: .
+    ports:
+      - "5500:5500"
+    volumes:
+      - ./log:/app/log
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: moneytransfer
+      DB_USER: mtuser
+      DB_PASSWORD: mtpass
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:

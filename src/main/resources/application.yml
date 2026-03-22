@@ -1,0 +1,44 @@
+server:
+  port: 5500
+
+spring:
+  application:
+    name: money-transfer-service
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:moneytransfer}
+    username: ${DB_USER:mtuser}
+    password: ${DB_PASSWORD:mtpass}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+
+# Демо-код подтверждения (FRONT отправляет ввод пользователя; для проверки с демо используйте этот код)
+money-transfer:
+  confirmation:
+    demo-code: "0000"
+  log:
+    directory: log
+    file-name: transfers.log
+
+---
+# Профиль для локального запуска без Docker (встроенная H2)
+spring:
+  config:
+    activate:
+      on-profile: local-h2
+  datasource:
+    url: jdbc:h2:mem:moneytransfer;DB_CLOSE_DELAY=-1;MODE=PostgreSQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  h2:
+    console:
+      enabled: true
