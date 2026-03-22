@@ -52,6 +52,8 @@ docker compose up --build
 3. Запустите FRONT: `npm i` и `npm run start`.  
 4. Убедитесь, что API запущен на порту 5500.
 
+Для браузерных запросов с другого origin включён **CORS** (`CorsConfig`): `http://localhost:3000`, `http://127.0.0.1:3000`, `https://serp-ya.github.io` (демо на GitHub Pages обращается к вашему `localhost:5500`).
+
 Демо-код подтверждения (учебный сценарий без SMS) по умолчанию: **`0000`** (настраивается в `application.yml`, ключ `money-transfer.confirmation.demo-code`).
 
 ## Эндпоинты и примеры запросов
@@ -99,6 +101,7 @@ curl -s -X POST http://localhost:5500/confirmOperation \
 | `PendingOperation` / `PendingOperationRepository` | Хранение неподтверждённых операций в БД |
 | `GlobalExceptionHandler` | Ответы с телом `{ "message", "id" }` для 4xx/5xx |
 | `MoneyTransferProperties` | Демо-код и путь к лог-файлу |
+| `CorsConfig` | CORS для FRONT (React и демо на GitHub Pages) |
 
 ## Тесты
 
