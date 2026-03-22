@@ -26,3 +26,4 @@
 
 - Репозиторий FRONT: [card-transfer](https://github.com/serp-ya/card-transfer)
 - Демо: [serp-ya.github.io/card-transfer](https://serp-ya.github.io/card-transfer/) — API должен быть доступен по `http://localhost:5500/` (переменная `REACT_APP_API_URL`).
+- В учебном бэкенде этого репозитория включён CORS для origin демо (`https://serp-ya.github.io`) и для локального React (`http://localhost:3000`), чтобы браузер не блокировал запросы к API на другом порту. Подробности запуска и проверки — в корневом `README.md`.

@@ -13,7 +13,7 @@
 
     <groupId>ru.netology</groupId>
     <artifactId>money-transfer-service</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <name>money-transfer-service</name>
     <description>Сервис перевода денег (курсовой проект)</description>
 

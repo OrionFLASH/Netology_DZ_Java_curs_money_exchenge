@@ -33,6 +33,17 @@ mvn spring-boot:run -Dspring-boot.run.profiles=local-h2
 
 Переменные БД для режима с PostgreSQL на машине см. [`.env.example`](.env.example).
 
+### Остановка локального сервера
+
+Если запускали в терминале в foreground — `Ctrl+C`. Если процесс в фоне, можно освободить порт **5500**:
+
+```bash
+lsof -i :5500
+kill <PID>
+```
+
+либо завершить процессы Maven/Spring Boot, в имени которых есть `spring-boot:run` или `MoneyTransferApplication`.
+
 ## Запуск через Docker Compose
 
 Требования: Docker, Docker Compose.
@@ -55,6 +66,16 @@ docker compose up --build
 Для браузерных запросов с другого origin включён **CORS** (`CorsConfig`): `http://localhost:3000`, `http://127.0.0.1:3000`, `https://serp-ya.github.io` (демо на GitHub Pages обращается к вашему `localhost:5500`).
 
 Демо-код подтверждения (учебный сценарий без SMS) по умолчанию: **`0000`** (настраивается в `application.yml`, ключ `money-transfer.confirmation.demo-code`).
+
+### Проверка с опубликованным демо (GitHub Pages)
+
+1. Запустите API на `http://localhost:5500` (команда выше или Docker Compose).  
+2. Откройте [https://serp-ya.github.io/card-transfer/](https://serp-ya.github.io/card-transfer/).  
+3. После отправки формы введите код **`0000`**.
+
+**Замечание:** страница демо отдаётся по **HTTPS**, API — по **HTTP**. В некоторых браузерах запросы с HTTPS на `http://localhost` могут блокироваться (смешанный контент / политика приватной сети). Если запросы не доходят до сервера, смотрите консоль разработчика (F12) и используйте локальный FRONT на `http://localhost:3000` с `.env`, как в списке выше — там оба адреса обычно по HTTP.
+
+Валюта в FRONT по умолчанию — код **`RUR`** ([константы card-transfer](https://github.com/serp-ya/card-transfer/blob/master/src/constants.ts)); API принимает любую непустую строку в `amount.currency` (подойдут и `RUR`, и `RUB`).
 
 ## Эндпоинты и примеры запросов
 
@@ -120,3 +141,4 @@ mvn test
 | Версия | Изменения |
 |--------|-----------|
 | 1.0.0 | Первоначальная реализация: REST по OpenAPI, JPA, файл логов, Docker Compose, тесты Mockito и Testcontainers |
+| 1.0.1 | CORS для интеграции с FRONT (localhost:3000, GitHub Pages); уточнения в документации: остановка сервера, проверка демо, валюта RUR |
